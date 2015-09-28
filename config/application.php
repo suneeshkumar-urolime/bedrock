@@ -70,8 +70,8 @@ define('DISALLOW_FILE_EDIT', true);
  * Plugin settings
  */
 define('AWS_USE_EC2_IAM_ROLE', true);
-define('AS3CF_REGION', getenv('CDN_REGION'));
-define('AS3CF_BUCKET', str_replace('s3://', '', getenv('CDN_BUCKET')));
+define('WP_REGION', getenv('CDN_REGION'));
+define('WP_BUCKET', str_replace('s3://', '', getenv('CDN_BUCKET')));
 
 /**
  * Bootstrap WordPress
