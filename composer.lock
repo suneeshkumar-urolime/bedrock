@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ebb2181bfeb96745e737d6dca60b77ab",
+    "hash": "b6b143202e0aff5c45693fbdd7e9aa6d",
+    "content-hash": "2174f41c9cd84df875e26e20060cf886",
     "packages": [
         {
             "name": "composer/installers",
@@ -231,6 +232,26 @@
                 "environment"
             ],
             "time": "2015-05-30 16:15:01"
+        },
+        {
+            "name": "wpackagist-plugin/amazon-s3-and-cloudfront",
+            "version": "0.9.5",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/amazon-s3-and-cloudfront/",
+                "reference": "tags/0.9.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/amazon-s3-and-cloudfront.0.9.5.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/amazon-s3-and-cloudfront/"
         }
     ],
     "packages-dev": [],
