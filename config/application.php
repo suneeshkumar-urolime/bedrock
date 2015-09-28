@@ -67,6 +67,11 @@ define('DISABLE_WP_CRON', true);
 define('DISALLOW_FILE_EDIT', true);
 
 /**
+ * Plugin settings
+ */
+define('AWS_USE_EC2_IAM_ROLE', true);
+
+/**
  * Bootstrap WordPress
  */
 if (!defined('ABSPATH')) {
