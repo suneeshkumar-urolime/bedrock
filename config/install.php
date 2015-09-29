@@ -63,6 +63,12 @@ function display_header( $body_classes = '' ) {
 <?php
 } // end display_header()
 
+// check if blog is already installed
+if ( is_blog_installed() ) {
+	display_header();
+	die( '<h1>' . __( 'Already Installed' ) . '</h1><p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p><p class="step"><a href="../wp-login.php" class="button button-large">' . __( 'Log In' ) . '</a></p></body></html>' );
+}
+
 if ( ! empty( $language ) && load_default_textdomain( $language ) ) {
 	$loaded_language = $language;
 	$GLOBALS['wp_locale'] = new WP_Locale();
@@ -82,34 +88,38 @@ $admin_email  = isset( $_ENV['WPINSTALL_EMAIL'] ) ?trim( wp_unslash( $_ENV['WPIN
 $public       = isset( $_ENV['WPINSTALL_PUBLIC'] ) ? (int) $_ENV['WPINSTALL_PUBLIC'] : 0;
 
 $result = wp_install( $weblog_title, $user_name, $admin_email, $public, '', wp_slash( $admin_password ), $loaded_language );
+
+$setting = Array();
+$setting['post_meta_version'] = 3;
+$setting['manual_bucket'] = 1;
+$setting['bucket'] = str_replace('s3://', '', getenv('CDN_S3_BUCKET')); 
+$setting['region'] = getenv('CDN_REGION');
+$setting['domain'] = 'cloudfront';
+$setting['expires'] = 0;
+$setting['cloudfront'] = str_replace('http://', '', getenv('CDN_URL'));
+$setting['object-prefix'] = 'app/uploads/';
+$setting['copy-to-s3'] = 1;
+$setting['serve-from-s3'] = 1;
+$setting['remove-local-file'] = 1;
+$setting['ssl'] = 'request';
+$setting['hidpi-images'] = 0;
+$setting['object-versioning'] = 1;
+$setting['use-yearmonth-folders'] = 1;
+$setting['enable-object-prefix'] = 1;
+
+add_option( 'tantan_wordpress_s3', serialize($setting), '', 'yes' );      
+activate_plugin( 'app/plugins/amazon-web-services/amazon-web-services.php' );
+activate_plugin( 'app/plugins/amazon-s3-and-cloudfront/wordpress-s3.php' );
 ?>
 
 <h1><?php _e( 'Success!' ); ?></h1>
 
 <p><?php _e( 'WordPress has been installed. Were you expecting more steps? Sorry to disappoint.' ); ?></p>
 
-<table class="form-table install-success">
-	<tr>
-		<th><?php _e( 'Username' ); ?></th>
-		<td><?php echo esc_html( sanitize_user( $user_name, true ) ); ?></td>
-	</tr>
-	<tr>
-		<th><?php _e( 'Password' ); ?></th>
-		<td><?php
-		if ( ! empty( $result['password'] ) && empty( $admin_password_check ) ): ?>
-			<code><?php echo esc_html( $result['password'] ) ?></code><br />
-		<?php endif ?>
-			<p><?php echo $result['password_message'] ?></p>
-		</td>
-	</tr>
-</table>
 
 <p class="step"><a href="../wp-login.php" class="button button-large"><?php _e( 'Log In' ); ?></a></p>
 
 <?php
-		}
-		break;
-}
 if ( !wp_is_mobile() ) {
 ?>
 <script type="text/javascript">var t = document.getElementById('weblog_title'); if (t){ t.focus(); }</script>
