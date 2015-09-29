@@ -89,25 +89,26 @@ $public       = isset( $_ENV['WPINSTALL_PUBLIC'] ) ? (int) $_ENV['WPINSTALL_PUBL
 
 $result = wp_install( $weblog_title, $user_name, $admin_email, $public, '', wp_slash( $admin_password ), $loaded_language );
 
-$setting = Array();
-$setting['post_meta_version'] = 3;
-$setting['manual_bucket'] = 1;
-$setting['bucket'] = str_replace('s3://', '', getenv('CDN_S3_BUCKET')); 
-$setting['region'] = getenv('CDN_REGION');
-$setting['domain'] = 'cloudfront';
-$setting['expires'] = 0;
-$setting['cloudfront'] = str_replace('http://', '', getenv('CDN_URL'));
-$setting['object-prefix'] = 'app/uploads/';
-$setting['copy-to-s3'] = 1;
-$setting['serve-from-s3'] = 1;
-$setting['remove-local-file'] = 1;
-$setting['ssl'] = 'request';
-$setting['hidpi-images'] = 0;
-$setting['object-versioning'] = 1;
-$setting['use-yearmonth-folders'] = 1;
-$setting['enable-object-prefix'] = 1;
+$setting = Array(
+  'post_meta_version' => 3,
+  'manual_bucket' => 1,
+  'bucket' => str_replace('s3://', '', getenv('CDN_S3_BUCKET')),
+  'region' => getenv('CDN_REGION'),
+  'domain' => 'cloudfront',
+  'expires' => 0,
+  'cloudfront' => str_replace('http://', '', getenv('CDN_URL')),
+  'object-prefix' => 'app/uploads/',
+  'copy-to-s3' => 1,
+  'serve-from-s3' => 1,
+  'remove-local-file' => 1,
+  'ssl' => 'request',
+  'hidpi-images' => 0,
+  'object-versioning' => 1,
+  'use-yearmonth-folders' => 1,
+  'enable-object-prefix' => 1
+);
 
-add_option( 'tantan_wordpress_s3', serialize($setting), '', 'yes' );      
+add_option( 'tantan_wordpress_s3', $setting, '', 'yes' );      
 $plugin1 = activate_plugin( 'amazon-web-services/amazon-web-services.php' );
 $plugin2 = activate_plugin( 'amazon-s3-and-cloudfront/wordpress-s3.php' );
 
