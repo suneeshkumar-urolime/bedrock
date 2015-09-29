@@ -108,8 +108,9 @@ $setting['use-yearmonth-folders'] = 1;
 $setting['enable-object-prefix'] = 1;
 
 add_option( 'tantan_wordpress_s3', serialize($setting), '', 'yes' );      
-activate_plugin( 'app/plugins/amazon-web-services/amazon-web-services.php' );
-activate_plugin( 'app/plugins/amazon-s3-and-cloudfront/wordpress-s3.php' );
+$plugin1 = activate_plugin( 'amazon-web-services/amazon-web-services.php' );
+$plugin2 = activate_plugin( 'amazon-s3-and-cloudfront/wordpress-s3.php' );
+
 ?>
 
 <h1><?php _e( 'Success!' ); ?></h1>
